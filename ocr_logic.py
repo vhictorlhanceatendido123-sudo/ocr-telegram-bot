@@ -10,27 +10,10 @@ from googleapiclient.discovery import build
 from dotenv import load_dotenv
 
 # --- Configuration ---
-# Define the path to the config file
-config_path = "config.env"
-
-# ✨ NEW: Check if the config.env file exists before trying to load it
-if not os.path.exists(config_path):
-    raise FileNotFoundError(
-        "The 'config.env' file was not found. "
-        "Please make sure it is in the same directory as your scripts and is named correctly."
-    )
-
-# Load environment variables from the 'config.env' file
-load_dotenv(dotenv_path=config_path)
-
-# IMPORTANT: Set these environment variables in your config.env file.
-try:
-    genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-    TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-    TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
-    GOOGLE_SHEET_ID = os.environ["GOOGLE_SHEET_ID"]
-except KeyError as e:
-    raise ValueError(f"{e.args[0]} environment variable not set in config.env")
+# This will automatically load variables from your local config.env file if it exists.
+# On Render, the file doesn't exist, so this line does nothing, and the program will
+# correctly use the environment variables you set in the dashboard.
+load_dotenv()
 
 # --- JSON Schema for Structured Output ---
 receipt_schema = {
